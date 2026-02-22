@@ -1,4 +1,5 @@
 {
+  "version": "1.0.1",  // Added version field - increment this when you update images
   "settings": {
     "visible": true,
     "containerStyles": {
