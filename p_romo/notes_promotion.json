@@ -1,0 +1,178 @@
+{
+  "settings": {
+    "visible": true,
+    "containerStyles": {
+      "display": "flex",
+      "flexDirection": "column",
+      "gap": "10px",
+      "margin": "10px"
+    }
+  },
+  "promotions": [
+    {
+      "id": "notes-keeper-1",
+      "visible": true,
+      "name": "Heartquote",
+      "logo": "https://cdn.jsdelivr.net/gh/heartquotelabs-cell/Social_Text_Based/p_romo/hqp/notes.png",
+      "description": "Unlimited Quotes and Poetry",
+      "buttonText": "Install",
+      "link": "https://apkpure.com/heartquote/com.heartquote/downloading",
+      "styles": {
+        "widget": {
+          "display": "flex",
+          "alignItems": "center",
+          "gap": "12px",
+          "padding": "12px",
+          "border": ".5px solid #cccc",
+          "borderRadius": "12px",
+          "margin": "10px 0",
+          "background": "transparent",
+          "transition": "all 0.2s ease"
+        },
+        "image": {
+          "width": "40px",
+          "height": "40px",
+          "borderRadius": "8px",
+          "objectFit": "cover"
+        },
+        "content": {
+          "flex": "1"
+        },
+        "title": {
+          "fontWeight": "600",
+          "fontSize": "14px",
+          "color": "#1e1e1e",
+          "marginBottom": "2px",
+          "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "description": {
+          "fontSize": "11px",
+          "color": "#666666",
+          "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "button": {
+          "background": "#ff4444",
+          "color": "#f1f1f1",
+          "border": "none",
+          "borderRadius": "9px",
+          "padding": "6px 16px",
+          "fontSize": "12px",
+          "fontWeight": "600",
+          "cursor": "pointer",
+          "transition": "all 0.2s",
+          "whiteSpace": "nowrap",
+          "fontFamily": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        },
+        "buttonHover": {
+          "background": "#cc0000",
+          "transform": "scale(1.01)"
+        },
+        "nightMode": {
+          "widget": {
+            "background": "transparent",
+            "borderColor": "#cccc"
+          },
+          "title": {
+            "color": "#f1f1f1"
+          },
+          "description": {
+            "color": "#98989d"
+          },
+          "button": {
+            "background": "#0a84ff",
+            "boxShadow": "0 2px 4px rgba(10,132,255,0.3)"
+          },
+          "buttonHover": {
+            "background": "#0066cc"
+          }
+        }
+      },
+      "tracking": {
+        "promotionName": "notes_keeper_1",
+        "promotionId": "notes_keeper_001",
+        "creativeName": "widget_banner_1"
+      }
+    },
+    {
+      "id": "notes-keeper-2",
+      "visible": true,
+      "name": "Notes Keeper Pro",
+      "logo": "https://cdn.jsdelivr.net/gh/heartquotelabs-cell/Social_Text_Based/p_romo/hqp/notes.png",
+      "description": "Get premium features - unlimited notes",
+      "buttonText": "Upgrade",
+      "link": "https://example.com/pro",
+      "styles": {
+        "widget": {
+          "display": "none",
+          "alignItems": "center",
+          "gap": "12px",
+          "padding": "12px",
+          "border": ".5px solid #cccc",
+          "borderRadius": "12px",
+          "margin": "8px",
+          "marginTop": "-2px",
+          "marginBottom": "50px",
+          "background": "transparent",
+          "transition": "all 0.2s ease"
+        },
+        "image": {
+          "width": "40px",
+          "height": "40px",
+          "borderRadius": "12px",
+          "objectFit": "cover"
+        },
+        "content": {
+          "flex": "1"
+        },
+        "title": {
+          "fontWeight": "700",
+          "fontSize": "14px",
+          "marginBottom": "2px",
+          "color": "#1e1e1e"
+        },
+        "description": {
+          "fontSize": "11px",
+          "color": "#666666"
+        },
+        "button": {
+          "background": "#007aff",
+          "color": "#ffffff",
+          "border": "none",
+          "borderRadius": "8px",
+          "padding": "8px 16px",
+          "fontSize": "12px",
+          "fontWeight": "600",
+          "cursor": "pointer",
+          "transition": "all 0.2s",
+          "whiteSpace": "nowrap"
+        },
+        "buttonHover": {
+          "background": "#0056b3"
+        },
+        "nightMode": {
+          "widget": {
+            "background": "transparent",
+            "borderColor": "none"
+          },
+          "title": {
+            "color": "#f1f1f1"
+          },
+          "description": {
+            "color": "#98989d"
+          },
+          "button": {
+            "background": "#0a84ff"
+          },
+          "buttonHover": {
+            "background": "#0066cc"
+          }
+        }
+      },
+      "tracking": {
+        "promotionName": "notes_keeper_2",
+        "promotionId": "notes_keeper_002",
+        "creativeName": "widget_banner_2"
+      }
+    }
+  ]
+}
