@@ -13,7 +13,7 @@
       "id": "notes-keeper-1",
       "visible": true,
       "name": "Heartquote",
-      "logo": "https://promohql.netlify.app/images/heartquote.png",
+      "logo": "https://cdn.jsdelivr.net/gh/heartquotelabs-cell/images/heartquote.png",
       "description": "Unlimited Quotes and Poetry",
       "buttonText": "Install",
       "link": "https://apkpure.com/heartquote/com.heartquote/downloading",
