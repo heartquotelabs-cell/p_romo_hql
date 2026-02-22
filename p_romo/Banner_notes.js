@@ -12,64 +12,32 @@ const firebaseConfig = {
 let analytics = null;
 let firebaseInitialized = false;
 let promotionConfig = null;
+let currentVersion = '1.0.0'; // Default version for images
 
 // ===== LOAD PROMOTION FROM JSON =====
 async function loadPromotionConfig() {
     try {
         const response = await fetch('notes_promotion.json?t=' + Date.now());
-        console.log('json loaded')
+        console.log('✅ JSON loaded with cache busting');
+        
         if (!response.ok) {
             throw new Error('Failed to load promotion config');
         }
+        
         const config = await response.json();
         promotionConfig = config;
+        
+        // Store the version from JSON for image cache busting
+        currentVersion = config.version || '1.0.0';
+        console.log('📋 Config version:', currentVersion);
+        
         return config;
     } catch (error) {
-        console.error('Error loading promotion config:', error);
+        console.error('❌ Error loading promotion config:', error);
         return getDefaultConfig();
     }
 }
-/*
-function getDefaultConfig() {
-    return {
-        settings: { visible: true },
-        promotions: [{
-            id: "default",
-            visible: true,
-            name: "Notes Keeper",
-            logo: "https://cdn.jsdelivr.net/gh/heartquotelabs-cell/Social_Text_Based/p_romo/hqp/notes.png",
-            description: "Your notes organizer",
-            buttonText: "Install",
-            link: "https://apkpure.com/heartquote/com.heartquote/downloading",
-            styles: {
-                widget: {
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "12px",
-                    padding: "12px",
-                    border: "1px solid #e0e0e0",
-                    borderRadius: "12px",
-                    margin: "10px 0",
-                    background: "#ffffff"
-                },
-                image: { width: "40px", height: "40px", borderRadius: "8px" },
-                title: { fontWeight: "600", fontSize: "14px", color: "#333" },
-                description: { fontSize: "11px", color: "#666" },
-                button: {
-                    background: "#ff4444",
-                    color: "white",
-                    borderRadius: "20px",
-                    padding: "6px 16px",
-                    fontSize: "12px",
-                    fontWeight: "600",
-                    cursor: "pointer",
-                    border: "none"
-                }
-            }
-        }]
-    };
-}
-*/
+
 // ===== STYLE APPLICATION HELPER =====
 function applyStyles(element, styles) {
     if (!styles || typeof styles !== 'object') return;
@@ -84,7 +52,7 @@ function loadFirebaseScripts() {
     return new Promise((resolve) => {
         if (firebaseInitialized) {
             resolve(true);
-            console.log('firebase 1st loaded')
+            console.log('🔥 Firebase already loaded');
             return;
         }
 
@@ -123,8 +91,9 @@ function initializeFirebase() {
         analytics = firebase.analytics();
         analytics.setAnalyticsCollectionEnabled(true);
         firebaseInitialized = true;
+        console.log('🔥 Firebase initialized');
     } catch (error) {
-        console.error('Firebase init error:', error);
+        console.error('❌ Firebase init error:', error);
     }
 }
 
@@ -144,12 +113,15 @@ async function initPromotion() {
     console.log('🚀 Starting promotion widget...');
     
     const promotionElements = document.querySelectorAll('.promotion');
-    if (promotionElements.length === 0) return;
+    if (promotionElements.length === 0) {
+        console.log('⚠️ No .promotion elements found');
+        return;
+    }
     
     // Check global visibility setting
     const config = await loadPromotionConfig();
     if (config.settings && config.settings.visible === false) {
-        console.log('Promotions are hidden by config');
+        console.log('📢 Promotions are hidden by config');
         promotionElements.forEach(el => el.style.display = 'none');
         return;
     }
@@ -167,9 +139,11 @@ async function initPromotion() {
     const visiblePromotions = promotions.filter(p => p.visible !== false);
     
     if (visiblePromotions.length === 0) {
-        console.log('No visible promotions');
+        console.log('⚠️ No visible promotions');
         return;
     }
+    
+    console.log(`📦 Loading ${visiblePromotions.length} promotion(s) with version: ${currentVersion}`);
     
     // Clear and create widgets
     promotionElements.forEach((element, elementIndex) => {
@@ -221,10 +195,12 @@ function createPromotionWidget(container, promo, index) {
         });
     }
     
-    // Create image
+    // Create image WITH VERSION CACHE BUSTING
     const img = document.createElement('img');
-    img.src = promo.logo;
+    // Add version parameter from JSON to force cache update when version changes
+    img.src = `${promo.logo}?v=${currentVersion}`;
     img.alt = promo.name;
+    img.setAttribute('data-version', currentVersion); // For debugging
     if (styles.image) {
         applyStyles(img, styles.image);
     }
@@ -293,6 +269,9 @@ function createPromotionWidget(container, promo, index) {
     widget.appendChild(button);
     
     container.appendChild(widget);
+    
+    // Log image URL with version for debugging
+    console.log(`🖼️ Image loaded: ${promo.name} (v${currentVersion})`);
     
     // Check initial night mode
     if (document.body.classList.contains('night-mode')) {
@@ -379,7 +358,7 @@ function updateAllForNightMode() {
 }
 
 // ===== INITIALIZATION =====
-console.log('📝 Promotion script loaded');
+console.log('📝 Promotion script loaded with version-based image caching');
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -399,6 +378,7 @@ if (document.readyState === 'loading') {
 // Retry on window load
 window.addEventListener('load', () => {
     if (document.querySelectorAll('.promotion-widget').length === 0) {
+        console.log('🔄 Retrying promotion initialization on load');
         initPromotion();
     }
 });
