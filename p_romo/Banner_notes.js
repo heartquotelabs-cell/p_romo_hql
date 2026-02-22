@@ -12,28 +12,20 @@ const firebaseConfig = {
 let analytics = null;
 let firebaseInitialized = false;
 let promotionConfig = null;
-let currentVersion = '1.0.0'; // Default version for images
 
 // ===== LOAD PROMOTION FROM JSON =====
 async function loadPromotionConfig() {
     try {
-        const response = await fetch('notes_promotion.json?t=' + Date.now());
-        console.log('✅ JSON loaded with cache busting');
-        
+    const response = await fetch('https://promohql.netlify.app/p_romo/notes_promotion.json?t=' + Date.now());
+        console.log('json loaded')
         if (!response.ok) {
             throw new Error('Failed to load promotion config');
         }
-        
         const config = await response.json();
         promotionConfig = config;
-        
-        // Store the version from JSON for image cache busting
-        currentVersion = config.version || '1.0.0';
-        console.log('📋 Config version:', currentVersion);
-        
         return config;
     } catch (error) {
-        console.error('❌ Error loading promotion config:', error);
+        console.error('Error loading promotion config:', error);
         return getDefaultConfig();
     }
 }
@@ -52,7 +44,7 @@ function loadFirebaseScripts() {
     return new Promise((resolve) => {
         if (firebaseInitialized) {
             resolve(true);
-            console.log('🔥 Firebase already loaded');
+            console.log('firebase 1st loaded')
             return;
         }
 
@@ -91,9 +83,8 @@ function initializeFirebase() {
         analytics = firebase.analytics();
         analytics.setAnalyticsCollectionEnabled(true);
         firebaseInitialized = true;
-        console.log('🔥 Firebase initialized');
     } catch (error) {
-        console.error('❌ Firebase init error:', error);
+        console.error('Firebase init error:', error);
     }
 }
 
@@ -113,15 +104,12 @@ async function initPromotion() {
     console.log('🚀 Starting promotion widget...');
     
     const promotionElements = document.querySelectorAll('.promotion');
-    if (promotionElements.length === 0) {
-        console.log('⚠️ No .promotion elements found');
-        return;
-    }
+    if (promotionElements.length === 0) return;
     
     // Check global visibility setting
     const config = await loadPromotionConfig();
     if (config.settings && config.settings.visible === false) {
-        console.log('📢 Promotions are hidden by config');
+        console.log('Promotions are hidden by config');
         promotionElements.forEach(el => el.style.display = 'none');
         return;
     }
@@ -139,11 +127,9 @@ async function initPromotion() {
     const visiblePromotions = promotions.filter(p => p.visible !== false);
     
     if (visiblePromotions.length === 0) {
-        console.log('⚠️ No visible promotions');
+        console.log('No visible promotions');
         return;
     }
-    
-    console.log(`📦 Loading ${visiblePromotions.length} promotion(s) with version: ${currentVersion}`);
     
     // Clear and create widgets
     promotionElements.forEach((element, elementIndex) => {
@@ -195,12 +181,10 @@ function createPromotionWidget(container, promo, index) {
         });
     }
     
-    // Create image WITH VERSION CACHE BUSTING
+    // Create image
     const img = document.createElement('img');
-    // Add version parameter from JSON to force cache update when version changes
-    img.src = `${promo.logo}?v=${currentVersion}`;
+    img.src = promo.logo;
     img.alt = promo.name;
-    img.setAttribute('data-version', currentVersion); // For debugging
     if (styles.image) {
         applyStyles(img, styles.image);
     }
@@ -269,9 +253,6 @@ function createPromotionWidget(container, promo, index) {
     widget.appendChild(button);
     
     container.appendChild(widget);
-    
-    // Log image URL with version for debugging
-    console.log(`🖼️ Image loaded: ${promo.name} (v${currentVersion})`);
     
     // Check initial night mode
     if (document.body.classList.contains('night-mode')) {
@@ -358,7 +339,7 @@ function updateAllForNightMode() {
 }
 
 // ===== INITIALIZATION =====
-console.log('📝 Promotion script loaded with version-based image caching');
+console.log('📝 Promotion script loaded');
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
@@ -378,7 +359,6 @@ if (document.readyState === 'loading') {
 // Retry on window load
 window.addEventListener('load', () => {
     if (document.querySelectorAll('.promotion-widget').length === 0) {
-        console.log('🔄 Retrying promotion initialization on load');
         initPromotion();
     }
 });
