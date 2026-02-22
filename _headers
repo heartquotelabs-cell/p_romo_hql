@@ -1,10 +1,15 @@
 # Root _headers file
+/*
+  Cache-Control: public, max-age=500
+  Access-Control-Allow-Origin: *
+  Timing-Allow-Origin: *
+
 /*.json
-  Cache-Control: public, max-age=120
+  Cache-Control: public, max-age=500
   Access-Control-Allow-Origin: *
   Timing-Allow-Origin: *
 
 /*.js
-  Cache-Control: public, max-age=120
+  Cache-Control: public, max-age=500
   Access-Control-Allow-Origin: *
   Timing-Allow-Origin: *
