@@ -16,7 +16,7 @@ let promotionConfig = null;
 // ===== LOAD PROMOTION FROM JSON =====
 async function loadPromotionConfig() {
     try {
-    const response = await fetch('https://promohql.netlify.app/p_romo/notes_promotion.json?t=' + Date.now());
+    const response = await fetch('https://cdn.jsdelivr.net/gh/heartquotelabs-cell/p_romo_hql@master/p_romo/notes_promotion.json?t=' + Date.now());
         console.log('json loaded')
         if (!response.ok) {
             throw new Error('Failed to load promotion config');
