@@ -174,3 +174,38 @@ document.addEventListener('deviceready', async () => {
         console.error('[AdMob] Failed to start AdMob: ' + e);
     }
 }, false);
+
+
+/*••••••••••••••••••••*/
+
+const promo = document.getElementById('mypromo');
+const banner = document.createElement('div');
+banner.style.cssText = 
+'display:flex;align-items:center;justify-content:space-between;padding:5px;background: var(--bg-card);margin: 10px 10px 0;border-radius:12px;gap:12px; border: 1px solid var(--border-light); ';
+const left = document.createElement('div');
+left.style.cssText = 'display:flex;align-items:center;gap:12px';
+const img = document.createElement('img');
+img.src = 'https://heartquotelabs.netlify.app/114.png';
+img.width = 30;
+img.height = 30;
+img.style.borderRadius = '8px';
+img.style.border = '1px solid var(--border-light)';
+const textWrap = document.createElement('div');
+textWrap.style.cssText = 'display:flex;flex-direction:column;gap:0px';
+const appName = document.createElement('div');
+appName.textContent = 'Heartquote';
+appName.style.cssText = 'font-size:13px;font-weight:bold;color: var(--text-primary);';
+const desc = document.createElement('div');
+desc.textContent = 'Offline Quotes and Poetry';
+desc.style.cssText = 'font-size:10px;color: var(--text-secondary);';
+const btn = document.createElement('button');
+btn.textContent = 'Install';
+btn.style.cssText = 'background: var(--bg-tertiary);border:none;padding:8px 20px;border-radius:20px;font-weight:bold;color: var(--text-inverse);cursor:pointer';
+btn.onclick = () => window.open('https://play.google.com/store/apps/details?id=com.heartquote', '_blank');
+textWrap.appendChild(appName);
+textWrap.appendChild(desc);
+left.appendChild(img);
+left.appendChild(textWrap);
+banner.appendChild(left);
+banner.appendChild(btn);
+promo.appendChild(banner);
