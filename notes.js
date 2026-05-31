@@ -179,8 +179,8 @@ document.addEventListener('deviceready', async () => {
 /*••••••••••••••••••••*/
 
 const promo = document.getElementById('mypromo');
-const banner = document.createElement('div');
-banner.style.cssText = 
+const promobanner = document.createElement('div');
+promobanner.style.cssText = 
 'display:flex;align-items:center;justify-content:space-between;padding:5px;background: var(--bg-card);margin: 10px 10px 0;border-radius:12px;gap:12px; border: 1px solid var(--border-light); ';
 const left = document.createElement('div');
 left.style.cssText = 'display:flex;align-items:center;gap:12px';
@@ -206,6 +206,6 @@ textWrap.appendChild(appName);
 textWrap.appendChild(desc);
 left.appendChild(img);
 left.appendChild(textWrap);
-banner.appendChild(left);
-banner.appendChild(btn);
-promo.appendChild(banner);
+promobanner.appendChild(left);
+promobanner.appendChild(btn);
+promo.appendChild(promobanner);
