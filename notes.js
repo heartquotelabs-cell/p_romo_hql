@@ -179,7 +179,7 @@ document.addEventListener('deviceready', async () => {
 /*••••••••••••••••••••*/
 
 const promo = document.getElementById('mypromo');
-// promo.style.display ='none';
+ promo.style.display ='none';
 const promobanner = document.createElement('div');
 promobanner.style.cssText = 
 'display:flex;align-items:center;justify-content:space-between;padding:5px;background: var(--bg-card);margin: 10px 10px 0;border-radius:12px;gap:12px; border: 1px solid var(--border-light); ';
