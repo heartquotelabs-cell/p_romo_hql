@@ -162,7 +162,7 @@ const promo = document.getElementById('mypromo');
  promo.style.display = 'flex'
 const promobanner = document.createElement('div');
 promobanner.style.cssText = 
-'display:none;align-items:center;justify-content:space-between;padding:5px;background: var(--bg-card);margin: 10px 10px 0;border-radius:12px;gap:12px; border: 1px solid var(--border-light); ';
+'display:flex;align-items:center;justify-content:space-between;padding:5px;background: var(--bg-card);margin: 10px 10px 0;border-radius:12px;gap:12px; border: 1px solid var(--border-light); ';
 const left = document.createElement('div');
 left.style.cssText = 'display:flex;align-items:center;gap:12px';
 const img = document.createElement('img');
