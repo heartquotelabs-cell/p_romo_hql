@@ -159,14 +159,14 @@ document.addEventListener('deviceready', async () => {
 /*••••••••••••••••••••*/
 
 const promo = document.getElementById('mypromo');
- promo.style.display = 'none'
+ promo.style.display = 'flex'
 const promobanner = document.createElement('div');
 promobanner.style.cssText = 
 'display:none;align-items:center;justify-content:space-between;padding:5px;background: var(--bg-card);margin: 10px 10px 0;border-radius:12px;gap:12px; border: 1px solid var(--border-light); ';
 const left = document.createElement('div');
 left.style.cssText = 'display:flex;align-items:center;gap:12px';
 const img = document.createElement('img');
-img.src = 'https://heartquotelabs.netlify.app/114.png';
+img.src = 'https://heartquotelabs-cell.github.io/hql-ctrl/pop.png';
 img.width = 30;
 img.height = 30;
 img.style.borderRadius = '8px';
@@ -174,15 +174,15 @@ img.style.border = '1px solid var(--border-light)';
 const textWrap = document.createElement('div');
 textWrap.style.cssText = 'display:flex;flex-direction:column;gap:0px';
 const appName = document.createElement('div');
-appName.textContent = 'Heartquote';
+appName.textContent = 'Popsquare Blast';
 appName.style.cssText = 'font-size:13px;font-weight:bold;color: var(--text-primary);';
 const desc = document.createElement('div');
-desc.textContent = 'Offline Quotes and Poetry';
+desc.textContent = 'Match 3 blocks and blast the levels';
 desc.style.cssText = 'font-size:10px;color: var(--text-secondary);';
 const btn = document.createElement('button');
 btn.textContent = 'Install';
 btn.style.cssText = 'background: var(--bg-tertiary);border:var(--border);padding:8px 20px;border-radius:20px;font-weight:bold;color: var(--text-inverse);cursor:pointer';
-btn.onclick = () => window.open('https://play.google.com/store/apps/details?id=com.heartquote', '_blank');
+btn.onclick = () => window.open('https://play.google.com/store/apps/details?id=com.wael.zookablast', '_blank');
 textWrap.appendChild(appName);
 textWrap.appendChild(desc);
 left.appendChild(img);
