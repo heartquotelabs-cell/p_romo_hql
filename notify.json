@@ -1,0 +1,10 @@
+{"default": {
+    "message": "Welcome to Notes with Lock! Enjoy organizing your thoughts.",
+    "time": "Just Now"
+  },"versions": {
+
+"1.3.0": {
+"message": "Discover templates, add multiple checklist items in Todos. Updated notes UI, edited notes now show Edited label. Report an issue or suggest a feature from settings.",
+"time": "Updated: 30/Jun/2026 — Tuesday"
+}
+}}
