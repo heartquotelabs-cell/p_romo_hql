@@ -290,3 +290,121 @@ playStoreUrl: "https://play.google.com/store/apps/details?id=com.noteswithlock",
 title: "Update Available",
 msgOptional: "A new version is available with fresh features. Would you like to update now ?",
 msgForce: "Your app version is no longer supported. Please update to the latest version to continue."};function compareVersions(v1, v2) {const parts1 = v1.split('.').map(num => parseInt(num, 10));const parts2 = v2.split('.').map(num => parseInt(num, 10));const maxLength = Math.max(parts1.length, parts2.length);for (let i = 0; i < maxLength; i++) {const num1 = i < parts1.length ? parts1[i] : 0;const num2 = i < parts2.length ? parts2[i] : 0;if (num1 > num2) return 1;if (num1 < num2) return -1;}return 0;}const current = window.APP_CURRENT_VERSION || "0.0.0";console.log(`[Update Check] Current: ${current}, Latest: ${CONFIG.latestVersion}, Min Required: ${CONFIG.minRequiredVersion}`);if (compareVersions(current, CONFIG.latestVersion) >= 0) {console.log('[Update Check] Version is up to date. Modal not shown.');return;}const isForceUpdate = compareVersions(current, CONFIG.minRequiredVersion) < 0;console.log(`[Update Check] Force update required: ${isForceUpdate}`);if (!document.getElementById('ios-update-styles')) { const style = document.createElement('style'); style.id = 'ios-update-styles'; style.textContent = `#ios-modal-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; z-index: 9999999; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; touch-action: none; } .ios-alert { width: 270px; background: rgba(255, 255, 255, 0.98); border-radius: 14px; overflow: hidden; text-align: center; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2); animation: ios-in 0.2s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: blur(0px); } @keyframes ios-in { from { transform: scale(0.96); opacity: 0; } to { transform: scale(1); opacity: 1; } } .ios-body { padding: 20px 16px 18px 16px; background: #ffffff; } .ios-title { font-weight: 600; font-size: 17px; margin-bottom: 8px; color: #000000; letter-spacing: -0.02em; line-height: 1.3; } .ios-msg { font-size: 13px; color: #8e8e93; line-height: 1.4; letter-spacing: -0.01em; } .ios-footer { display: flex; height: 44px; align-items: stretch; border-top: 0.5px solid #c6c6c8; background: #ffffff; } .ios-btn { flex: 1; border: none; font-size: 17px; cursor: pointer; outline: none; height: 44px; border-radius: 0px; background: #ffffff; margin: 0; padding: 0; display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent; transition: background 0.1s ease; font-weight: 500; letter-spacing: -0.02em; } .ios-btn:active { background: #e5e5ea; } .btn-later { color: #007aff; border-right: 0.5px solid #c6c6c8; font-weight: 500; } .btn-update { color: #007aff; font-weight: 600; } .btn-force { color: #007aff; font-weight: 600; width: 100%; background: #ffffff; } .btn-force:active { background: #e5e5ea; }`; document.head.appendChild(style); }const wrapper = document.createElement('div');wrapper.id = 'ios-modal-wrapper';const message = isForceUpdate ? CONFIG.msgForce : CONFIG.msgOptional;const footerHtml = isForceUpdate ? `<button class="ios-btn btn-force" id="update-action">Update Now</button>`: `<button class="ios-btn btn-later" id="later-action">Later</button><button class="ios-btn btn-update" id="update-action">Update</button>`;wrapper.innerHTML = `<div class="ios-alert"><div class="ios-body"><div class="ios-title">${CONFIG.title}</div><div class="ios-msg">${message}</div></div><div class="ios-footer">${footerHtml}</div></div>`;document.body.appendChild(wrapper);const updateBtn = wrapper.querySelector('#update-action');const laterBtn = wrapper.querySelector('#later-action');updateBtn.onclick = () => {const url = CONFIG.playStoreUrl;if (window.cordova && window.cordova.InAppBrowser) {window.cordova.InAppBrowser.open(url, '_system');console.log('[Update Check] Opening Play Store via InAppBrowser');return;}const isAndroid = /android/i.test(navigator.userAgent);if (isAndroid) {const packageName = url.match(/id=([^&]+)/)?.[1];if (packageName) {console.log('[Update Check] Opening Play Store via market:// protocol');window.location.href = `market://details?id=${packageName}`;setTimeout(() => {window.location.href = url;}, 2000);return;}}const newWindow = window.open(url, '_blank');if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {console.log('[Update Check] Popup blocked, navigating current window');window.location.href = url;}};if (laterBtn) {laterBtn.onclick = () => {wrapper.remove();};}wrapper.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });}, 300);})();
+
+(function () {
+  var MIN_MAJOR = 90;
+
+  function getChromeVersion() {
+    var m = (navigator.userAgent || '').match(/Chrome\/(\d+)/);
+    return m ? parseInt(m[1], 10) : null;
+  }
+
+  var version = getChromeVersion();
+  if (version === null) return;
+  if (version >= MIN_MAJOR) return;
+
+  // ---- Inject styles ----
+  var css =
+    '#wv-update-overlay {' +
+      'position: fixed;' +
+      'top: 0; left: 0; right: 0; bottom: 0;' +
+      'width: 100%; height: 100%;' +
+      'background: rgba(0, 0, 0, 0.72);' +
+      'z-index: 2147483647;' +
+      'display: -webkit-box; display: -webkit-flex; display: flex;' +
+      '-webkit-box-pack: center; -webkit-justify-content: center; justify-content: center;' +
+      '-webkit-box-align: center; -webkit-align-items: center; align-items: center;' +
+      'padding: 20px; box-sizing: border-box;' +
+      'font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;' +
+    '}' +
+    '.wv-update-modal {' +
+      'background: #ffffff; color: #000000;' +
+      'border-radius: 16px;' +
+      'width: 100%; max-width: 340px; max-height: 90%;' +
+      'overflow-y: auto;' +
+      'box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);' +
+    '}' +
+    '.wv-update-header {' +
+      'background: #4DB6AC; color: #ffffff;' +
+      'padding: 16px 20px;' +
+      'border-radius: 16px 16px 0 0;' +
+    '}' +
+    '.wv-update-title {' +
+      'font-size: 16px; font-weight: 700;' +
+      'letter-spacing: 0.2px; margin: 0;' +
+    '}' +
+    '.wv-update-body {' +
+      'padding: 18px 20px 4px;' +
+      'font-size: 14px; line-height: 1.55;' +
+      'color: #000000;' +
+    '}' +
+    '.wv-update-body p { margin: 0 0 10px; }' +
+    '.wv-update-body p:last-child { margin-bottom: 0; }' +
+    '.wv-update-actions { padding: 16px 20px 20px; }' +
+    '.wv-update-btn {' +
+      'display: block; width: 100%;' +
+      'padding: 12px 10px;' +
+      'margin-bottom: 10px;' +
+      'border-radius: 12px;' +
+      'font-size: 14px; font-weight: 600;' +
+      'font-family: inherit;' +
+      'border: 1px solid #e5e5ea;' +
+      'cursor: pointer;' +
+      'box-sizing: border-box;' +
+      '-webkit-appearance: none; appearance: none;' +
+      'background: transparent;' +
+    '}' +
+    '.wv-update-btn:last-child { margin-bottom: 0; }' +
+    '.wv-update-later { background: #f2f2f7; color: #000000; }' +
+    '.wv-update-go { background: #4DB6AC; color: #ffffff; border-color: #4DB6AC; }';
+
+  var styleEl = document.createElement('style');
+  styleEl.id = 'wv-update-styles';
+  styleEl.type = 'text/css';
+  if (styleEl.styleSheet) {
+    styleEl.styleSheet.cssText = css;
+  } else {
+    styleEl.appendChild(document.createTextNode(css));
+  }
+  document.head.appendChild(styleEl);
+
+  // ---- Inject modal ----
+  var overlay = document.createElement('div');
+  overlay.id = 'wv-update-overlay';
+  overlay.innerHTML =
+    '<div class="wv-update-modal">' +
+      '<div class="wv-update-header">' +
+        '<div class="wv-update-title">Update Required</div>' +
+      '</div>' +
+      '<div class="wv-update-body">' +
+        '<p>Your Android System WebView is outdated. Some icons, features, and layouts may not work as expected.</p>' +
+        '<p>Please update it from Play Store to use this app properly.</p>' +
+      '</div>' +
+      '<div class="wv-update-actions">' +
+        '<button type="button" class="wv-update-btn wv-update-later" id="wv-later">Later</button>' +
+        '<button type="button" class="wv-update-btn wv-update-go" id="wv-go">Update Now</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(overlay);
+
+  // ---- Handlers ----
+  function removeOverlay() {
+    if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+  }
+
+  document.getElementById('wv-go').addEventListener('click', function () {
+    var url = 'https://play.google.com/store/apps/details?id=com.google.android.webview';
+    if (window.cordova && cordova.InAppBrowser) {
+      cordova.InAppBrowser.open(url, '_system');
+    } else if (window.open) {
+      window.open(url, '_system');
+    } else {
+      window.location.href = url;
+    }
+    removeOverlay();
+  });
+
+  document.getElementById('wv-later').addEventListener('click', function () {
+    removeOverlay();
+  });
+})();
