@@ -284,7 +284,7 @@ setTimeout(function() {
 const existing = document.getElementById('ios-modal-wrapper');
 if (existing) existing.remove();
 const CONFIG = {
-latestVersion: "1.6.0",
+latestVersion: "1.7.0",
 minRequiredVersion: "1.3.0",
 playStoreUrl: "https://play.google.com/store/apps/details?id=com.noteswithlock",
 title: "Update Available",
